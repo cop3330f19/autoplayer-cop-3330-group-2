@@ -36,7 +36,7 @@ bool operator==(const Song& lhs, const Song& rhs)
 
 ostream& operator<<(ostream& os, const Song& song)
 {
-    os << "\nNOW PLAYING\n" << song.title << '\n' << song.artist << '\n'
+    os << song.title << '\n' << song.artist << '\n'
         << song.album << ' ' << "(" << song.year << ")\n" << "Play Time: " << song.length << endl;
     
     return os;
