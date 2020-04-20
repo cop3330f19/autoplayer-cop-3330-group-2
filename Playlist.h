@@ -39,7 +39,7 @@ class Playlist
    //will take a Song object as a parameter and delete it from play list and return true/false.
    bool deleteSong(Song & song);
    // Adds song to playlist current playlist
-   Playlist operator+(Song & song);
+   Playlist operator+();
    // concatenation of the two playlist objects 
    Playlist operator+(Playlist & playlist);
    //removing a song(s) from a playlist
@@ -56,8 +56,6 @@ class Playlist
    void play();
    // Keeps tract of the playing mode
    static void setMode();
-
-   void getVector();
 
 };
 
