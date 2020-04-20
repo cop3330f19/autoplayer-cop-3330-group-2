@@ -22,14 +22,14 @@ class Playlist
    Playlist(std::string);
 
    friend std::ostream& operator<<(std::ostream& os, const Playlist& playlist);
-	//output to file
-	friend std::ofstream& operator<<(std::ofstream& os, const Playlist& playlist);
+   //output to file
+   friend std::ofstream& operator<<(std::ofstream& os, const Playlist& playlist);
 
-	// input the playlist in the format:
-	// title
-	friend std::istream& operator>>(std::istream& is, Playlist& playlist);
-	//input from file
-	friend std::fstream& operator>>(std::fstream& is, Playlist& playlist);
+   // input the playlist in the format:
+   // title
+   friend std::istream& operator>>(std::istream& is, Playlist& playlist);
+   //input from file
+   friend std::fstream& operator>>(std::fstream& is, Playlist& playlist);
 
    void setTitle(std::string);
 
