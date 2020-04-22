@@ -13,7 +13,7 @@ class Playlist
    private:
    std::string title;
    std::vector<Song> playlist;
-   static int playingMode;
+   static int mode;
 
    public:
 
@@ -35,28 +35,32 @@ class Playlist
 
    std::string getTitle() const;
    //will take a Song object as a parameter and insert it into the play list.
-   void addSong(Song & song);
+   void addSong(Song song);
    //will take a Song object as a parameter and delete it from play list and return true/false.
    bool deleteSong(Song & song);
    // Adds song to playlist current playlist
-   Playlist operator+();
+   Playlist friend operator+(Playlist &p ,Song &s);
    // concatenation of the two playlist objects 
-   Playlist operator+(Playlist & playlist);
+   Playlist friend operator+(Playlist & playlist , Playlist & p2);
    //removing a song(s) from a playlist
-   Playlist operator-(Song & song);
+   Playlist friend operator-(Playlist &p , Song & song);
 
    /*return a new playlist that is the intersection of the songs in the playlist argument and 
    the songs contained within the playlist object. This will contain no duplicates*/
-   void intersect(Playlist & Playlist);
+   Playlist intersect(Playlist & Playlist);
    /* return a new playlist that merges the songs in the playlist argument
    and the songs contained within the playlist object which match been called. 
    This playlist will contain all songs, including duplicates.*/
-   void merge(Playlist & Playlist);
+   Playlist merge(Playlist & Playlist);
    //play's one song from the play list starting at first index
    void play();
    // Keeps tract of the playing mode
-   static void setMode();
+   static void setMode(int);
+
+   std::vector<Song> getPlaylist();
 
 };
+
+int Playlist::mode = 0;
 
 #endif
