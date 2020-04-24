@@ -1,0 +1,8 @@
+/for(int i = 0; i < playlist.size(); i++)
+   {
+    os << playlist[i].title << '\n' << playlist[i].artist << '\n'
+        << playlist[i].album << ' ' << "(" << playlist[i].year << ")\n" << "Play Time: " <<  playlist[i].length / 60 
+        << showpoint << fixed << ':' <<  playlist[i].length / 60 * 10<<  endl;
+       
+       return os;
+   }

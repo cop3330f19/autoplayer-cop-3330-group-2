@@ -14,6 +14,9 @@ class Playlist
    std::string title;
    std::vector<Song> playlist;
    static int mode;
+   void appendToFile(Song song);
+   void writeToFile();
+   int songnumber;
 
    public:
 
@@ -54,13 +57,16 @@ class Playlist
    Playlist merge(Playlist & Playlist);
    //play's one song from the play list starting at first index
    void play();
+   // Sets the playing mode
+   static void setMode(char);
    // Keeps tract of the playing mode
-   static void setMode(int);
+   static int getPlayingMode();
 
    std::vector<Song> getPlaylist();
+  // prints all songs in vector
+  void printPlaylist();
+
 
 };
-
-int Playlist::mode = 0;
 
 #endif

@@ -10,6 +10,11 @@ Song::Song()
 {
     
 }
+Song::Song(string title, string artist)
+{
+    this->title = title;
+    this->artist = artist;
+}
 
 Song::Song(string title, string artist, string album, int length, int year)
 {

@@ -5,17 +5,41 @@
 #include <vector>
 #include <fstream>
 #include "Playlist.h"
+#include "StringHelper.h"
+#include <stdlib.h>  
 
 using namespace std;
 
 Playlist::Playlist()
 {
-    
+    songnumber = 0;
 }
 
 Playlist::Playlist(string title)
 {
+    songnumber = 0;
+
     this->title = title;
+    string song, artist,album, line;
+    int year, song_length;
+
+    ifstream file;
+    file.open((StringHelper::stou(title) + ".playlist").c_str());
+    while(getline(file,line))
+    {
+        Song s;
+        song = StringHelper::parse(line,',')[0];
+        artist = StringHelper::parse(line,',')[1];
+        album = StringHelper::parse(line,',')[2];
+        year = atoi(StringHelper::parse(line,',')[3].c_str());
+        song_length = atoi(StringHelper::parse(line,',')[4].c_str());
+
+        s.set(song,artist,album,song_length,year);
+        addSong(s);
+    }
+    
+    writeToFile();
+    
 }
 
 void Playlist::setTitle(string title)
@@ -32,6 +56,7 @@ string Playlist::getTitle() const
 void Playlist::addSong(Song song)
 {
     playlist.push_back(song);
+    appendToFile(song);
 }
 
 //will take a Song object as a parameter and delete it from play list and return true/false.
@@ -94,7 +119,7 @@ Playlist Playlist::intersect(Playlist & p)
        if(s[i] == s1[i])
        p1.addSong(s[i]);
     }
-    
+    return p1;  
 }
 
 /* return a new playlist that merges the songs in the playlist argument
@@ -107,24 +132,91 @@ Playlist Playlist::merge(Playlist & p)
 
     return p1;
 }
-//play's one song from the play list starting at first index
-// void Playlist::play()
-// {
-//     vector<Song> s = this ->playlist;
 
-//     for (int i = 0; i < count; i++)
-//     {
-//         /* code */
-//     }
-    
-// }
-
-int Playlist::mode = 0;
-// Keeps tract of the playing mode
-void Playlist::setMode(int playingMode)
+int Playlist::getPlayingMode()
 {
-    mode = playingMode;
+    int count = 0;
+    if(mode == 0)
+    {
+        return count;
+        count++;
+    }
+    if(mode == 1)
+    {
+        return count;
+    }
+    if(mode == 2)
+    {
+        return count;
+    }
+
+    return count;
 }
 
+// play's one song from the play list starting at first index
+void Playlist::play()
+{
+    if(mode == 0 || mode == 2)
+        songnumber++;
+    if (mode == 2 && songnumber == playlist.size())
+    {
+        songnumber = 0;
+    }
+    if (mode == 0 && songnumber == playlist.size())
+    {
+        cout << " End of playlist" << endl;
+        return;
+    }
+    cout << playlist[songnumber] << endl;
+    
+        // mode normal increment 
+        // if mode loop and at end reset to zero
+        // if mode normal and at end of list say end of list
+   
+}
 
+// Keeps tract of the playing mode
+void Playlist::setMode(char playingMode)
+{
+    if(playingMode == 'N')
+        mode = 0;
+    if(playingMode == 'R')
+        mode = 1;
+    if(playingMode == 'L')
+        mode = 2;
+}
 
+void Playlist::appendToFile(Song song)
+{
+    ofstream file;
+    file.open((StringHelper::stou(title) + ".playlist").c_str(), ios::app);
+    file << song;
+    
+}
+void Playlist::writeToFile()
+{
+    ofstream file;
+    file.open((StringHelper::stou(title) + ".playlist").c_str());
+    for (int i = 0; i < playlist.size(); i++)
+    {
+       file << playlist[i];
+    }
+}
+
+ostream& operator<<(ostream& os, const Playlist& playlist)
+{
+    for(int i = 0; i < playlist.playlist.size(); i++)
+   {
+    os << playlist.playlist[i] << endl;
+      
+       return os;
+   }
+   
+}
+
+void Playlist::printPlaylist()
+{
+    for(int i = 0; i < playlist.size(); i++)
+        cout << playlist[i] << endl;
+
+}

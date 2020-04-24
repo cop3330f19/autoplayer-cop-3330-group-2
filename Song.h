@@ -30,6 +30,7 @@ class Song
 		// constructors
 		Song( );
 		Song(std::string title, std::string artist, std::string album, int length, int year);
+		Song(std::string title, std::string artist);
 
 		// set the song
 		void set(std::string title, std::string artist, std::string album, int length, int year);
