@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 #include "Song.h"
+#include <iomanip>
+#include <math.h>
 
 using namespace std;
 
@@ -41,8 +43,10 @@ bool operator==(const Song& lhs, const Song& rhs)
 
 ostream& operator<<(ostream& os, const Song& song)
 {
+    
     os << song.title << '\n' << song.artist << '\n'
-        << song.album << ' ' << "(" << song.year << ")\n" << "Play Time: " << song.length << endl;
+        << song.album << ' ' << "(" << song.year << ")\n" << "Play Time: " <<  song.length / 60 
+        << showpoint << fixed << ':' <<  song.length / 60 * 10<<  endl;
     
     return os;
 }

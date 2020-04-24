@@ -130,7 +130,7 @@ int main()
                     p.play();
                     break;
             case 'S':
-                    p.printPlaylist();
+                   p.printPlaylist();
                     break;
             case 'Q': goto label1;
                     break;
