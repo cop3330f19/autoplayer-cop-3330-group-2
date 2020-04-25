@@ -37,9 +37,7 @@ Playlist::Playlist(string title)
         s.set(song,artist,album,song_length,year);
         addSong(s);
     }
-    
     writeToFile();
-    
 }
 
 void Playlist::setTitle(string title)
@@ -56,7 +54,6 @@ string Playlist::getTitle() const
 void Playlist::addSong(Song song)
 {
     playlist.push_back(song);
-    appendToFile(song);
 }
 
 //will take a Song object as a parameter and delete it from play list and return true/false.
@@ -157,23 +154,29 @@ int Playlist::getPlayingMode()
 void Playlist::play()
 {
     if(mode == 0 || mode == 2)
+    {
+        cout << playlist[songnumber] << endl;
         songnumber++;
+    }
+    if(mode == 1)
+         cout << playlist[songnumber] << endl;
     if (mode == 2 && songnumber == playlist.size())
     {
         songnumber = 0;
     }
     if (mode == 0 && songnumber == playlist.size())
     {
-        cout << " End of playlist" << endl;
+        cout << " END OF PLAYLIST" << endl;
         return;
     }
-    cout << playlist[songnumber] << endl;
+
     
         // mode normal increment 
         // if mode loop and at end reset to zero
         // if mode normal and at end of list say end of list
    
 }
+
 
 // Keeps tract of the playing mode
 void Playlist::setMode(char playingMode)
