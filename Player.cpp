@@ -16,31 +16,32 @@ const int countLinesInFile(string filename);
 // Adds song from file to song vector
 void openPlaylistFile(string filename, vector<string> & v);
 
-// Searchs for playlist
-int searchForPlaylist(int selection, vector<string> & v);
-
 // Static controlling playing mode
 int Playlist::mode = 0;
 int main()
 {
-    int index = 0;
-    int new_playlist = 0;
     Song song;
+    // checking if song is deleted
     bool check;
-    string title, artist, album, tempPlaylist;
+    
+    // Playlist important info
+    string title, artist, album, choice, choice2;
     int year, song_in_seconds;
     
     string newPlaylist;
 
     // Controls switch choices
-    int selection, selection1;
-    char selection2;
+    int selection, selection1, selection2;
     char control, control2;
-
+    
+    // holds playlist titles
     vector<string> play;
-
+    
+    // adds playlist from file to vector
     openPlaylistFile("Playlist.list", play);
-    start:
+do
+{
+
     cout << "----------WELCOME to the AutoPlayer----------" << endl << endl;
     cout << "You currently have " << play.size() << " playlist(s)." << endl;
     cout << "1 - Open an exisiting playlist" << endl;
@@ -49,10 +50,12 @@ int main()
     cout << "Selection: "; 
     cin >> selection;
     cout << endl;
-do
-{
-    if (selection == 1)
+
+    switch (selection)
     {
+    
+        case 1:
+        {
             cout << "Please select a playlist from below:" << endl;
             for (int i = 0; i < play.size() ; i++)
             {
@@ -60,11 +63,9 @@ do
             }
             cout << "Selection: ";
             cin >> selection1;
+            choice = play[selection1-1];
             cout << endl;
-                
-            
-            index = searchForPlaylist(selection1,play);
-            Playlist p(play[index]);
+            Playlist p(choice);
             label:
             cout << "You are now playing: " << p.getTitle() << endl;
             cout << setw(22) << right << "A - Add a song" << endl;
@@ -76,24 +77,24 @@ do
             cout << "Selection: ";
             cin >> control;
             cout << endl;
-            if(toupper(control)== 'A')
-            {
+            switch(toupper(control))
+                {
+                case 'A': 
                 cout << "Song Details" << endl;
                 cout << "Title: ";
-                cin >> title; //needs to be a getline
+                getline(cin,title); //needs to be a getline
                 cout << "Artist: ";
-                cin >> artist;   
+                getline(cin,artist);   
                 cout << "Album: ";
-                cin >> album;                         
+                getline(cin,album);                         
                 cout << "Year: ";
                 cin >> year;
                 cout << "Length (in seconds): ";
                 cin >> song_in_seconds;
                 song.set(title,artist,album,song_in_seconds,year);
                 p.addSong(song);
-            }
-            else if(toupper(control)== 'D')
-            {
+                break;
+                case 'D':
                 cout << "Enter to delete: " << endl;
                 cout << "Title: ";
                 cin >> song;
@@ -104,9 +105,8 @@ do
                     cout << "Song successfully deleted " << endl;
                 else
                     cout << "Song not found in playlist" << endl;
-            }
-            else if(toupper(control)== 'M')
-            {
+                break;
+                case 'M':
                 cout << "Enter mode: " << endl;
                 cout << setw(9) << right << "N - Normal " << endl;
                 cout << setw(9) << "R - Repeat " <<endl;
@@ -114,42 +114,86 @@ do
                 cout << "Selection: ";
                 cin >> control2;
                 p.setMode(toupper(control2));
-                goto label;
-            }
-            else if(toupper(control)== 'P')
-            {
-                cout << "NOW PLAYING:" << endl;
-                p.play();
-                goto label;
-            }
-            else if(toupper(control)== 'S')
-            {
-                p.printPlaylist();
-                goto label;
-            }
-            else if(toupper(control)== 'Q')
-                goto start;
-            else
-            {
-               cout << "Invalid selection " << endl; 
-                goto label;
-            }    
-    }    
-    if (selection == 2)
-     {
+                break;
+                case 'P':
+                        p.play();
+                        goto label;
+                        break;
+                case 'S':
+                    p.printPlaylist();
+                        break;
+                case 'Q':
+                        break;
+                default: 
+                    cout << "Invalid selection " << endl; 
+                    break;
+                } // inner switch end
+    } // case 1 end
+    break;
+            
+    case 2:
+    {
         cout << "1 - Create new empty list" << endl;
         cout << "2 - Merge 2 exisitng playlists" << endl;
         cout << "3 - Intersect 2 exisinting playlists" << endl;
         cout << "Selection: ";
         cin >> selection1;
-        if(selection1 == 1)
+        cout << "Name of new playlist (cannot contain underscores):";
+        cin.ignore();
+        getline(cin,newPlaylist);
+        cout << endl;
+         if(selection1 == 1)
         {
-            cout << "Name of new playlist (cannot contain underscores):";
-            cin.ignore();
-            getline(cin,newPlaylist);
-            Playlist p(newPlaylist);    
+            play.push_back(newPlaylist); 
         }
-     }
+        if(selection1 == 2)
+       {
+           cout << " Which of the following playlists would you like to merge? " << endl;
+           for(int i = 0; i < play.size(); i++)
+           {
+               cout <<  i + 1 << " " << play[i] << endl;
+           }
+           cout << "Playlist 1: ";
+           cin >> selection1;
+           cout << endl;
+           choice = play[selection1-1];
+           Playlist p(choice);
+           cout << "Playlist 2: ";
+           cin >> selection2;
+           cout << endl;
+           choice2 = play[selection2-1];
+           Playlist p1(choice2);
+           Playlist p3(newPlaylist);
+           p3.merge(p1);
+           p3.merge(p);
+       }
+       if(selection == 3)
+       {
+           cout << "Which of the following playlists would you like to intersect? " << endl; 
+           for(int i = 0; i < play.size(); i++)
+           {
+               cout <<  i + 1 << " " << play[i] << endl;
+           }
+           cout << "Playlist 1: ";
+           cin >> selection1;
+           cout << endl;
+           choice = play[selection1-1];
+           Playlist p(choice);
+           cout << "Playlist 2: ";
+           cin >> selection2;
+           cout << endl;
+           choice2 = play[selection2-1];
+           Playlist p1(choice2);
+           Playlist p3(newPlaylist);
+           p3.intersect(p);
+           p3.intersect(p1);
+       }
+    }// case 2 end
+    break;
+
+    default:
+    break;
+    } // end of entire switch
 }
 while (selection != 3);
     
@@ -172,36 +216,6 @@ const int countLinesInFile(string filename)
     return count;
 }
 
-
-int searchForPlaylist(int selection, vector<string> & v)
-{
-    string playlist;
-    if(selection == 1)
-        playlist = "Country";
-    else if(selection == 2)
-        playlist = "90s_RnB";
-    else if(selection == 3)
-        playlist = "Country_RnB_Mix";
-    else if(selection == 4)
-        playlist = "Intersected_List";
-    else if(selection == 5)
-        playlist = "Rock_Anthems";
-    else
-       return playlist.size();
-    
-
-    for(int i = 0; i < v.size() ; i++)
-    {
-        if (playlist == v[i])
-        {
-            return i;
-        }
-        
-    }
-    return -1;
-    
-    
-}
 
 void openPlaylistFile(string filename, vector <string> & v)
 {

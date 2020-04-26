@@ -89,7 +89,6 @@ Playlist operator+(Playlist & playlist, Playlist & p2)
     }  
     return p3;
 }
-
 //removing a song(s) from a playlist
 Playlist operator-(Playlist & p , Song & song)
 {
@@ -169,11 +168,6 @@ void Playlist::play()
         cout << " END OF PLAYLIST" << endl;
         return;
     }
-
-    
-        // mode normal increment 
-        // if mode loop and at end reset to zero
-        // if mode normal and at end of list say end of list
    
 }
 
@@ -223,3 +217,4 @@ void Playlist::printPlaylist()
         cout << playlist[i] << endl;
 
 }
+
