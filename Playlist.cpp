@@ -1,3 +1,13 @@
+/* Group 2
+ * Last Updated: 25 Apr 20 
+ * COP 3330
+ * Group Members:
+ * Amani Muller
+ * Eric Lampley
+ * Zahir Cooper
+ * Claressa Wilson 
+ * */
+
 #include <string>
 #include "Song.h"
 #include <iomanip>
