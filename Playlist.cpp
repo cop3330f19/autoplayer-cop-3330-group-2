@@ -46,8 +46,9 @@ Playlist::Playlist(string title)
 
         s.set(song,artist,album,song_length,year);
         addSong(s);
+        writeToFile();
     }
-    writeToFile();
+
 }
 
 void Playlist::setTitle(string title)
@@ -79,6 +80,10 @@ bool Playlist:: deleteSong(Song & song)
     }
     return false;
 }
+ Playlist:: Playlist(const Playlist & p2) 
+ {
+    playlist = p2.playlist;
+ }
 
 // Adds song to playlist current playlist
 Playlist operator+(Playlist & p ,Song & s)
@@ -90,8 +95,8 @@ Playlist operator+(Playlist & p ,Song & s)
   // concatenation of the two playlist objects 
 Playlist operator+(Playlist & playlist, Playlist & p2)
 {
-    vector<Song> s = playlist.getPlaylist();
-    Playlist p3 = p2;
+    vector<Song> s = p2.getPlaylist();
+    Playlist p3 = playlist;
 
     for (int i = 0; i < s.size(); i++)
     {
@@ -117,26 +122,34 @@ Playlist Playlist::intersect(Playlist & p)
 {
     vector<Song> s = this ->playlist;
     vector <Song> s1 = p.getPlaylist();
-    Playlist p1;
+    Playlist p1 = this ->title;
 
 
-    for (int i = 0; i < playlist.size(); i++)
+    for (int i = 0; i < s.size(); i++)
     {
        if(s[i] == s1[i])
-       p1.addSong(s[i]);
+       {
+           p1.appendToFile(s1[i]);
+       }
     }
     return p1;  
 }
+
 
 /* return a new playlist that merges the songs in the playlist argument
 and the songs contained within the playlist object which match been called. 
 This playlist will contain all songs, including duplicates.*/
 Playlist Playlist::merge(Playlist & p)
 {
-    Playlist p1;  
-    p1 = *this + p;
+    Playlist p3 = this ->title;
+    vector<Song> v = p.getPlaylist();
+    for (int i = 0; i < v.size() ; i++)
+    {
+        p3.addSong(v[i]);
+        p3.appendToFile(v[i]);
+    }
+    return p3;
 
-    return p1;
 }
 
 int Playlist::getPlayingMode()
