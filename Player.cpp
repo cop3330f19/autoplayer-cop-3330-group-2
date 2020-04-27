@@ -52,9 +52,6 @@ int main()
     
     vector<string> play;
     
-     // adds playlist from file to vector
-    openPlaylistFile("Playlist.list", play);
- 
 do
 {
       // adds playlist from file to vector
