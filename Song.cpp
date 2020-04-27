@@ -56,7 +56,7 @@ ostream& operator<<(ostream& os, const Song& song)
     
     os << song.title << '\n' << song.artist << '\n'
         << song.album << ' ' << "(" << song.year << ")\n" << "Play Time: " <<  song.length / 60 
-        << showpoint << fixed << ':' <<  setw(2) << (song.length % 60) <<  endl;
+        << showpoint << fixed << ':'<< setw(2) << left << (song.length % 60) <<  endl;
     
     return os;
 }
