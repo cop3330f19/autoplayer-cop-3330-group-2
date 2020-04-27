@@ -185,7 +185,6 @@ do
            choice2 = play[selection2-1];
            Playlist p1(choice2);
            p3.merge(p1);
-           p3.merge(p);
        }
        if(selection1 == 3)
        {
