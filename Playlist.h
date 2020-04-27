@@ -24,7 +24,6 @@ class Playlist
    std::string title;
    std::vector<Song> playlist;
    static int mode;
-   void appendToFile(Song song);
    void writeToFile();
    int songnumber;
 
@@ -33,6 +32,7 @@ class Playlist
    // Constructors
    Playlist();
    Playlist(std::string);
+   Playlist(const Playlist &p2);
 
    friend std::ostream& operator<<(std::ostream& os, const Playlist& playlist);
    //output to file
@@ -60,7 +60,7 @@ class Playlist
 
    /*return a new playlist that is the intersection of the songs in the playlist argument and 
    the songs contained within the playlist object. This will contain no duplicates*/
-   Playlist intersect(Playlist & Playlist);
+   Playlist intersect(Playlist & playlist);
    /* return a new playlist that merges the songs in the playlist argument
    and the songs contained within the playlist object which match been called. 
    This playlist will contain all songs, including duplicates.*/
@@ -76,6 +76,7 @@ class Playlist
   // prints all songs in vector
   void printPlaylist();
 
+  void appendToFile(Song song);
 
 };
 
